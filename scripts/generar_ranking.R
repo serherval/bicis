@@ -8,7 +8,15 @@ library(dplyr)
 library(readr)
 library(ggplot2)
 
-hist_data <- read_csv("data/biki_history.csv", show_col_types = FALSE)
+hist_data <- read_csv(
+  "data/biki_history.csv",
+  show_col_types = FALSE,
+  col_types = cols(timestamp = col_datetime())
+)
+
+if (any(is.na(hist_data$timestamp))) {
+  warning("Algunas filas de 'timestamp' no se han podido parsear como fecha/hora; revisa el formato en data/biki_history.csv")
+}
 
 ultimo <- hist_data %>% filter(timestamp == max(timestamp))
 
