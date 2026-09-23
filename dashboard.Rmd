@@ -1,0 +1,33 @@
+---
+title: "BIKI Valladolid — Histórico"
+output: flexdashboard::flex_dashboard
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(crosstalk)
+library(plotly)
+library(dplyr)
+library(readr)
+
+# La columna "barrio" ya viene calculada en el CSV (ver scripts/scrape_biki.R)
+hist_data <- read_csv("data/biki_history.csv", show_col_types = FALSE) %>%
+  mutate(total_bicis = mecanicas + electricas)
+
+sd <- SharedData$new(hist_data)
+```
+
+### Filtros {.sidebar}
+
+```{r}
+filter_select("barrio", "Barrio", sd, ~barrio)
+filter_select("nombre", "Parada", sd, ~nombre)
+```
+
+### Evolución histórica
+
+```{r}
+plot_ly(sd, x = ~timestamp, y = ~total_bicis, color = ~nombre,
+        type = "scatter", mode = "lines+markers") %>%
+  layout(yaxis = list(title = "Bicis disponibles"), xaxis = list(title = ""))
+```
