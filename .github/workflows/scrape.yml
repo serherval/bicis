@@ -2,7 +2,8 @@ name: Scrape BIKI Valladolid
 
 on:
   schedule:
-    - cron: '0 7,12,17 * * *'   # 9h, 14h, 19h hora España (UTC+2 verano; ajustar +1h en invierno si te importa la precisión exacta)
+    - cron: '0 7,12,17 * * *'
+      timezone: 'Europe/Madrid'  # Fuerza la ejecución en hora local de España
   workflow_dispatch: {}          # permite lanzarlo a mano desde la pestaña Actions
 
 permissions:
