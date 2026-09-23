@@ -96,6 +96,8 @@ if (file.exists(BARRIOS_PATH)) {
 }
 
 hist_path <- "data/biki_history.csv"
+dir.create(dirname(hist_path), showWarnings = FALSE, recursive = TRUE)
+
 if (file.exists(hist_path)) {
   write_csv(snapshot, hist_path, append = TRUE)
 } else {
